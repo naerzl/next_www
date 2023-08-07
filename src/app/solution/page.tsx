@@ -1,4 +1,4 @@
-import React, { Suspense } from "react"
+import React from "react"
 import "@/styles/solution.scss"
 import SolutionContent from "./components/SolutionContent"
 import { Metadata } from "next"
@@ -11,11 +11,9 @@ export const metadata: Metadata = {
 function Solution() {
   return (
     <>
-      <Suspense fallback={<h1>正在加载。。。</h1>}>
-        <main className="mt-16 w-full mx-auto solution ">
-          <SolutionContent />
-        </main>
-      </Suspense>
+      <main className="mt-16 w-full mx-auto solution ">
+        <SolutionContent />
+      </main>
     </>
   )
 }
