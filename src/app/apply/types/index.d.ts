@@ -5,6 +5,7 @@ export interface ReqRegisterParams {
   job: string
   code: string
   company: string
+  project_name: string
 }
 
 // 注册接口结果类型

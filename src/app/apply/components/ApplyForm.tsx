@@ -2,7 +2,7 @@
 import React from "react"
 import { REGEXP_PHONE, SECONDS } from "@/libs/const"
 import useCountDown from "@/hooks/useCountDown"
-import message from "antd-message-react"
+import { message } from "antd"
 import { ReqRegisterParams } from "../types"
 import useSWRMutaton from "swr/mutation"
 import { reqGetRegisterPhoneCode, reqPostRegister } from "../api"
@@ -63,20 +63,20 @@ function ApplyForm() {
       <form onSubmit={handleSubmit(onSubmit)} className="flex h-full flex-col">
         <div className="relative pb-[70px]">
           <TextField
-            {...register("company", { required: "请输入您的名字" })}
+            {...register("project_name", { required: "请输入您的项目名称" })}
             variant="outlined"
             label="项目名称"
             fullWidth
             className="absolute h-10"
-            error={Boolean(errors.company)}
+            error={Boolean(errors.project_name)}
             onBlur={() => {
-              handleBlur("company")
+              handleBlur("project_name")
             }}
             size="small"
           />
           <ErrorMessage
             errors={errors}
-            name="company"
+            name="project_name"
             render={({ message }) => (
               <p className="text-railway_error text-sm absolute top-[42px] left-0">{message}</p>
             )}

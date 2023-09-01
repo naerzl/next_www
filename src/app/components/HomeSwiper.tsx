@@ -23,7 +23,7 @@ function HomeSwiper() {
           <div
             className="w-full h-full flex flex-col justify-end items-center"
             style={{
-              backgroundImage: 'url("static/image/side1.png")',
+              backgroundImage: 'url("/static/image/side1.png")',
               backgroundSize: "cover",
             }}>
             <div className="max-w-[1920px] mx-auto z-30 w-full">
@@ -46,7 +46,7 @@ function HomeSwiper() {
           <div
             className="w-full h-full flex flex-col justify-end items-center"
             style={{
-              backgroundImage: 'url("static/image/side2.jpg")',
+              backgroundImage: 'url("/static/image/side2.jpg")',
               backgroundSize: "cover",
             }}>
             <div className="max-w-[1920px] mx-auto z-30 w-full">
@@ -69,7 +69,7 @@ function HomeSwiper() {
           <div
             className="w-full h-full flex flex-col justify-end items-center"
             style={{
-              backgroundImage: 'url("static/image/side3.png")',
+              backgroundImage: 'url("/static/image/side3.png")',
               backgroundSize: "cover",
             }}>
             <div className="max-w-[1920px] mx-auto z-30 w-full">

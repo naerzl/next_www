@@ -12,22 +12,22 @@ const navList = [
   {
     id: 2,
     name: "解决方案",
-    path: "/solution",
+    path: "/solution/",
   },
   {
     id: 3,
     name: "申请试用",
-    path: "/apply",
+    path: "/apply/",
   },
   {
     id: 4,
     name: "服务支持",
-    path: "/service",
+    path: "/service/",
   },
   {
     id: 5,
     name: "关于我们",
-    path: "/about",
+    path: "/about/",
   },
 ]
 

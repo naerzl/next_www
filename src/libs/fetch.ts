@@ -3,6 +3,7 @@ import { formDataInstance, lrsOAuth2Instance } from "./init_oauth"
 import { OAUTH2_ACCESS_TOKEN, OAUTH2_PATH_FROM, STATUS_SUCCESS } from "./const"
 import { StatusCodes } from "http-status-codes"
 import { generateRandomString } from "./methods"
+import { message } from "antd"
 
 // 拼接接口地址
 export const getV1BaseURL = (url: string): string => {
@@ -105,7 +106,10 @@ export function fetcher<T>(params: FetcherOptions<T>) {
   return (isStatusOk ? result : ufetch())
     .then((res) => res.json())
     .then((res) => {
-      if (res.code !== STATUS_SUCCESS) return Promise.reject(res.msg)
+      if (res.code !== STATUS_SUCCESS) {
+        message.error(res.msg)
+        return Promise.reject(res.msg)
+      }
       return res.data
     })
 }
