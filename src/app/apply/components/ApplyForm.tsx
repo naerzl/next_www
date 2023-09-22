@@ -38,6 +38,7 @@ function ApplyForm() {
     getValues,
     reset,
     formState: { errors },
+    reset
   } = useForm<ReqRegisterParams>()
 
   const { trigger: postRegisterApi } = useSWRMutaton("/register", reqPostRegister)
@@ -55,6 +56,7 @@ function ApplyForm() {
   const { run: onSubmit }: { run: SubmitHandler<ReqRegisterParams> } = useDebounce(
     async (values: ReqRegisterParams) => {
       await postRegisterApi(values)
+      reset()
       message.success("注册成功")
       reset()
       setDialogOpen(true)
