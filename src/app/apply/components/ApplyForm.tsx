@@ -1,15 +1,27 @@
 "use client"
 import React from "react"
-import { REGEXP_PHONE, SECONDS } from "@/libs/const"
+import { OAUTH2_PATH_FROM, REGEXP_PHONE, SECONDS, STATUS_SUCCESS } from "@/libs/const"
 import useCountDown from "@/hooks/useCountDown"
 import { message } from "antd"
 import { ReqRegisterParams } from "../types"
 import useSWRMutaton from "swr/mutation"
 import { reqGetRegisterPhoneCode, reqPostRegister } from "../api"
-import { Button, TextField, Select, MenuItem } from "@mui/material"
+import {
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  DialogTitle,
+  Dialog,
+  DialogActions,
+  DialogContent,
+} from "@mui/material"
 import { ErrorMessage } from "@hookform/error-message"
 import { useForm, SubmitHandler } from "react-hook-form"
 import useDebounce from "@/hooks/useDebounce"
+import { generateRandomString } from "@/libs/methods"
+import { lrsOAuth2Instance } from "@/libs/init_oauth"
+import { setCookie } from "@/libs/cookies"
 
 const selectOption = [
   { value: 1, label: "铁路" },
@@ -24,6 +36,7 @@ function ApplyForm() {
     register,
     trigger,
     getValues,
+    reset,
     formState: { errors },
   } = useForm<ReqRegisterParams>()
 
@@ -33,10 +46,19 @@ function ApplyForm() {
     reqGetRegisterPhoneCode,
   )
 
+  const [dialogOpen, setDialogOpen] = React.useState(false)
+
+  const { count: count1, start: start1 } = useCountDown(5, () => {
+    setDialogOpen(false)
+  })
+
   const { run: onSubmit }: { run: SubmitHandler<ReqRegisterParams> } = useDebounce(
     async (values: ReqRegisterParams) => {
       await postRegisterApi(values)
       message.success("注册成功")
+      reset()
+      setDialogOpen(true)
+      start1()
     },
   )
 
@@ -57,6 +79,27 @@ function ApplyForm() {
     // 调佣api
   })
 
+  const handleCancel = () => {
+    setDialogOpen(false)
+  }
+
+  const handleOk = async () => {
+    const state = generateRandomString()
+    // 补货到抛出的错误 重新初始化token 重新登录
+    const res = await lrsOAuth2Instance.lrsOAuth2Initiate(
+      `${process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL}/initiate`,
+      {
+        state,
+        redirect_url: process.env.NEXT_PUBLIC_CLIENT_URL + "/auth2",
+      },
+    )
+    if (res.code === STATUS_SUCCESS) {
+      // 存储当前的url地址
+      setCookie(OAUTH2_PATH_FROM as string, process.env.NEXT_PUBLIC_CLIENT_URL + "/dashboard")
+      // 跳转到登录页面的地址
+      location.href = res.data.location
+    }
+  }
   return (
     <div className="bg-white  p-12 rounded-2xl  min-w-[500px] w-2/5">
       <h4 className="mb-10 text-2xl font-bold">注册项目试用账号</h4>
@@ -205,6 +248,25 @@ function ApplyForm() {
           提交注册
         </Button>
       </form>
+
+      <Dialog
+        sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 435 } }}
+        maxWidth="xs"
+        open={dialogOpen}
+        onClose={() => {
+          handleCancel()
+        }}>
+        <DialogTitle>温馨提示</DialogTitle>
+        <DialogContent>
+          您已注册成功，5秒内点击确认将为您跳转至登陆页面，取消和5秒后将为您停留至此页面，是否确认跳转至登陆页面？
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleCancel}>
+            取消
+          </Button>
+          <Button onClick={handleOk}>确认({count1})</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
