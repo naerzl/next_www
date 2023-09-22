@@ -38,7 +38,6 @@ function ApplyForm() {
     getValues,
     reset,
     formState: { errors },
-    reset
   } = useForm<ReqRegisterParams>()
 
   const { trigger: postRegisterApi } = useSWRMutaton("/register", reqPostRegister)
