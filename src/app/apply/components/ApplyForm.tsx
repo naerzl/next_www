@@ -74,8 +74,8 @@ function ApplyForm() {
       // 开始计时
       start()
       const res = await getRegisterPhoneCodeApi({ phone: getValues("phone") })
-
-      console.log(`code=${res.code}`)
+      if (process.env.NEXT_PUBLIC_SHOW_CODE == "1" && res)
+        message.success(`短信验证码为：${res.code}`)
     }
     // 调佣api
   })
@@ -259,7 +259,7 @@ function ApplyForm() {
         }}>
         <DialogTitle>温馨提示</DialogTitle>
         <DialogContent>
-          您已注册成功，5秒内点击确认将为您跳转至登陆页面，取消和5秒后将为您停留至此页面，是否确认跳转至登陆页面？
+          您已注册成功，5秒内点击确认将为您跳转至登陆页面，取消后5秒后将为您停留至此页面，是否确认跳转至登陆页面？
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleCancel}>
