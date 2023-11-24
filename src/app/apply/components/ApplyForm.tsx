@@ -74,8 +74,8 @@ function ApplyForm() {
       // 开始计时
       start()
       const res = await getRegisterPhoneCodeApi({ phone: getValues("phone") })
-      if (process.env.NEXT_PUBLIC_SHOW_CODE == "1" && res)
-        message.success(`短信验证码为：${res.code}`)
+      // if (process.env.NEXT_PUBLIC_SHOW_CODE == "1" && res)
+      // message.success(`短信验证码为：${res.code}`)
     }
     // 调佣api
   })
