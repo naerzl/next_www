@@ -1,6 +1,8 @@
+'use client'
 import { IconButton, InputAdornment, InputBase, Divider } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import React from "react"
+import { useRouter } from "next/navigation"
 
 export const metadata = {
   title: "服务支持",
@@ -52,15 +54,19 @@ const mayBeFind = [
 const tabsList = [
   {
     name: "文档中心",
+    path: '/documentCenter'
   },
   {
     name: "视频指导",
+    path: ''
   },
   {
     name: "开发者中心",
+    path: ''
   },
   {
     name: "下载中心",
+    path: '/downloadCenter'
   },
 ]
 
@@ -117,6 +123,15 @@ const bottomList = [
   },
 ]
 function Service() {
+  const router = useRouter();
+  const goToPage = (tab:string) => {
+    if(tab === ''){
+        console.log('111')
+    }else{
+      console.log(tab)
+      router.push(tab);
+    }
+  };
   return (
     <>
       <main className="mt-16 w-full mx-auto service ">
@@ -170,6 +185,7 @@ function Service() {
             <ul className="flex justify-between py-14 text-center px-28">
               {tabsList.map((tab) => (
                 <li
+                  onClick={() => goToPage(tab.path)}
                   key={tab.name}
                   className="w-49 h-25 rounded-lg border border-[#797979] text-xl text-railway_303 leading-[6.25rem] hover:bg-[#f5f5f5]">
                   {tab.name}
