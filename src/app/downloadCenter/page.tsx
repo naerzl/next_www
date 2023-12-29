@@ -14,7 +14,7 @@ function side() {
     const handleMouseEnter = () => setIsHovered(true);
     const handleMouseLeave = () => setIsHovered(false);
     // 扫码跳转
-    const url = 'http://192.168.2.17/'
+    const url = 'https://www.zctc.cc/app/index.html'
     // const buttonStyle: CSSProperties = {
     //     backgroundColor: isButtonActive ? '#003366' : 'bg-sky-300',
     // };
