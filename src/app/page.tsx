@@ -10,6 +10,7 @@ import Dynamic from "./components/Dynamic"
 
 export const metadata: Metadata = {
   title: "首页",
+  description: "12-29 app下载",
 }
 
 const teamList = [
