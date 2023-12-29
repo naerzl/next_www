@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link"
 import React from "react"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { generateRandomString } from "@/libs/methods"
 import { lrsOAuth2Instance } from "@/libs/init_oauth"
 import { getV1BaseURL } from "@/libs/fetch"
@@ -38,6 +38,8 @@ const navList = [
 
 const Nav = () => {
   const pathName = usePathname()
+  const router = useRouter()
+
   const [scroll, setScroll] = React.useState(0)
   window.onscroll = () => {
     setScroll(document.documentElement.scrollTop)
@@ -107,14 +109,23 @@ const Nav = () => {
               </li>
             ))}
           </ul>
-          <div className="line "></div>
-          <span
-            className={`mr-3 cursor-pointer`}
-            onClick={() => {
-              handleClickLogin()
-            }}>
-            登录
-          </span>
+          <div className="line"></div>
+          <div className="w-36 flex justify-between">
+            <span
+              className="cursor-pointer"
+              onClick={() => {
+                router.push("/downloadCenter")
+              }}>
+              app下载
+            </span>
+            <span
+              className={`mr-3 cursor-pointer`}
+              onClick={() => {
+                handleClickLogin()
+              }}>
+              登录
+            </span>
+          </div>
         </div>
       </div>
     </nav>
