@@ -70,7 +70,7 @@ const menuList: { [key: string]: any } = {
         path: "/material-approach",
         title: "创建项目",
         permissionTag: "material_approach_member_read",
-      }
+      },
     },
   },
   testManagement: {
@@ -78,16 +78,16 @@ const menuList: { [key: string]: any } = {
     icon: <SpeedOutlinedIcon />,
     permissionTag: "test_management_module_read",
     children: {
-        "first-login": {
-            path: "/material-approach",
-            title: "首次登录",
-            permissionTag: "material_approach_member_read",
-        },
-        "non-first-login": {
-            path: "/material-approach",
-            title: "非首次登录",
-            permissionTag: "material_approach_member_read",
-        }
+      "first-login": {
+        path: "/material-approach",
+        title: "首次登录",
+        permissionTag: "material_approach_member_read",
+      },
+      "non-first-login": {
+        path: "/material-approach",
+        title: "非首次登录",
+        permissionTag: "material_approach_member_read",
+      },
     },
   },
   commonLibrarys: {
@@ -206,51 +206,51 @@ const menuList: { [key: string]: any } = {
     open: false,
     permissionTag: "export_management_module_read",
     children: {
-        "material-entry": {
-            path: "/material-receipt",
-            title: "物资进场",
-            permissionTag: "receipt_of_materials_member_read",
-        },
-        "material-testing": {
-            path: "/material-receipt",
-            title: "物资试验",
-            permissionTag: "receipt_of_materials_member_read",
-        },
-        "material-processing": {
-            path: "/material-receipt",
-            title: "物资加工",
-            permissionTag: "receipt_of_materials_member_read",
-        },
-        "material-requisition": {
-            path: "/material-receipt",
-            title: "物资领用",
-            permissionTag: "receipt_of_materials_member_read",
-        },
-        "construction-log": {
-            path: "/material-receipt",
-            title: "施工日志",
-            permissionTag: "receipt_of_materials_member_read",
-        },
-        "personal-center": {
-            path: "/material-receipt",
-            title: "个人中心",
-            permissionTag: "receipt_of_materials_member_read",
-        },
-        "set-up": {
-            path: "/material-receipt",
-            title: "设置",
-            permissionTag: "receipt_of_materials_member_read",
-        },
+      "material-entry": {
+        path: "/material-receipt",
+        title: "物资进场",
+        permissionTag: "receipt_of_materials_member_read",
+      },
+      "material-testing": {
+        path: "/material-receipt",
+        title: "物资试验",
+        permissionTag: "receipt_of_materials_member_read",
+      },
+      "material-processing": {
+        path: "/material-receipt",
+        title: "物资加工",
+        permissionTag: "receipt_of_materials_member_read",
+      },
+      "material-requisition": {
+        path: "/material-receipt",
+        title: "物资领用",
+        permissionTag: "receipt_of_materials_member_read",
+      },
+      "construction-log": {
+        path: "/material-receipt",
+        title: "施工日志",
+        permissionTag: "receipt_of_materials_member_read",
+      },
+      "personal-center": {
+        path: "/material-receipt",
+        title: "个人中心",
+        permissionTag: "receipt_of_materials_member_read",
+      },
+      "set-up": {
+        path: "/material-receipt",
+        title: "设置",
+        permissionTag: "receipt_of_materials_member_read",
+      },
     },
   },
 }
 
-function side() {
+export default function Page() {
   const pathName = usePathname()
 
   const router = useRouter()
 
-//   const ctxLayout = React.useContext(LayoutContext)
+  //   const ctxLayout = React.useContext(LayoutContext)
 
   const [openList, setOpen] = React.useState<string[]>([])
 
@@ -300,8 +300,9 @@ function side() {
         component="nav"
         aria-labelledby="nested-list-subheader">
         {Object.keys(menuList).map((key, index) => (
-          <div key={index} 
-        //   style={displayWithPermission(menuList[key].permissionTag)}
+          <div
+            key={index}
+            //   style={displayWithPermission(menuList[key].permissionTag)}
           >
             <ListItemButton
               sx={{ color: "#44566c" }}
@@ -352,5 +353,3 @@ function side() {
     </>
   )
 }
-
-export default side
