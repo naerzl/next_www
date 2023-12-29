@@ -80,7 +80,7 @@ const Nav = () => {
   return (
     <nav
       className={
-        "w-full h-16  fixed top-0 left-0  box-border  z-50 transition-colors duration-100 min-w-[90rem] shadow-md max-2xl::absolute"
+        "w-full h-16  fixed top-0 left-0  box-border  z-50 transition-colors duration-100 min-w-[90rem] shadow-md max-2xl::absolute phone:hidden"
       }
       style={navBgChange()}>
       <div className={` w-full h-full  ${conditionFn() ? "mask" : ""} `}>

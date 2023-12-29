@@ -2,7 +2,7 @@ import React from "react"
 
 function Footer() {
   return (
-    <footer className={`w-full mx-auto  footer min-w-[90rem] max-h-[16.75rem]`}>
+    <footer className={`w-full mx-auto  footer min-w-[90rem] max-h-[16.75rem] phone:hidden`}>
       <div className="relative bg_box">
         <img
           src="/static/image/footer_bg.jpg"
