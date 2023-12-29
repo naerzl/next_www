@@ -1,0 +1,11 @@
+.custom-background {
+    width: 100%;
+    height: 100vh;
+    background-image: url(/static/image/download_bg.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 10vh;
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
