@@ -5,7 +5,9 @@ import React from "react"
 
 import { Metadata } from "next"
 import Dynamic from "./components/Dynamic"
-
+import dynamic from "next/dynamic"
+import Footer from "@/components/Footer"
+const DynamicComponent = dynamic(() => import("@/components/Nav"), { ssr: false })
 // 111
 
 export const metadata: Metadata = {
@@ -48,6 +50,7 @@ const buddyList = [
 export default function Home() {
   return (
     <>
+    <DynamicComponent />
       <main className="w-full mx-auto  home ">
         <HomeSwiper />
         <div className="max-w-[1920px] mx-auto">
@@ -104,6 +107,7 @@ export default function Home() {
           <Dynamic />
         </div>
       </main>
+      <Footer />
     </>
   )
 }
