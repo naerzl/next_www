@@ -12,6 +12,7 @@ const DynamicComponent = dynamic(() => import("@/components/Nav"), { ssr: false 
 
 export const metadata: Metadata = {
   title: "首页",
+  description: "12-29 app下载",
 }
 
 const teamList = [

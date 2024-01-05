@@ -32,7 +32,7 @@ build-job:       # This job runs in the build stage, which runs first.
   only:
     refs:
       - master
-    tags: [ master ]
+  tags: [ master ]
   script:
     - npm config get proxy
     - npm config set registry https://registry.npm.taobao.org
@@ -50,7 +50,7 @@ unit-test-job:   # This job runs in the test stage.
   only:
     refs:
       - master
-    tags: [ master ]
+  tags: [ master ]
   script:
     - echo "Running unit tests... This will take about 60 seconds."
     - echo "Code coverage is 90%"
@@ -60,7 +60,7 @@ lint-test-job:   # This job also runs in the test stage.
   only:
     refs:
       - master
-    tags: [ master ]
+  tags: [ master ]
   script:
     - echo "Linting code... This will take about 10 seconds."
     - echo "No lint issues found."
@@ -70,7 +70,7 @@ deploy-job:      # This job runs in the deploy stage.
   only:
     refs:
       - master
-    tags: [ master ]
+  tags: [ master ]
   environment: production
   script:
     - echo "Deploying application..."

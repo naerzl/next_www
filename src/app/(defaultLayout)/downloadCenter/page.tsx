@@ -48,6 +48,18 @@ function side() {
     }
     return (
         <>
+            <nav className="w-full h-16 fixed top-0 left-0 box-border z-50 transition-colors duration-100 min-w-[90rem] shadow-md max-2xl:absolute phone:hidden">
+                <div className='w-full h-full'>
+                    <div className=" w-full h-full mx-auto flex items-center px-4">
+                        <div className="flex text-xl items-center">
+                            <img className="h-8 transition-all" src="/static/image/logo2.png" alt="" />
+                            <span className="ml-2">筑宬科技</span>
+                        </div>
+                        <div className="mx-2">|</div>
+                        <div className="text-base">下载中心</div>
+                    </div>
+                </div>
+            </nav>
             <div className="custom-background phone:text-lg mt-16" style={content}>
                 <div className="text-2xl font-bold phone:text-lg">筑宬App</div>
                 <div className="text-base text-gray-400 phone:text-lg">Android、IOS</div>
@@ -74,5 +86,4 @@ function side() {
         </>
     )
 }
-
 export default side

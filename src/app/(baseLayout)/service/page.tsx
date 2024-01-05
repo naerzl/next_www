@@ -1,13 +1,8 @@
-'use client'
+"use client"
 import { IconButton, InputAdornment, InputBase, Divider } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import React from "react"
 import { useRouter } from "next/navigation"
-
-export const metadata = {
-  title: "服务支持",
-  description: "这是服务支持页面",
-}
 
 const mayBeFind = [
   {
@@ -54,19 +49,19 @@ const mayBeFind = [
 const tabsList = [
   {
     name: "文档中心",
-    path: '/documentCenter'
+    path: "/documentCenter",
   },
   {
     name: "视频指导",
-    path: ''
+    path: "",
   },
   {
     name: "开发者中心",
-    path: ''
+    path: "",
   },
   {
     name: "下载中心",
-    path: '/downloadCenter'
+    path: "/downloadCenter",
   },
 ]
 
@@ -130,8 +125,12 @@ function Service() {
   const goToPage = (tab: string) => {
     if (tab === '') {
       console.log('111')
+    } else if (tab === '/documentCenter') {
+      window.open(tab)
     } else {
       router.push(tab);
+      console.log(tab);
+      
     }
   };
   function handleContact(type: string, content: string) {
@@ -196,7 +195,8 @@ function Service() {
                 <li
                   onClick={() => goToPage(tab.path)}
                   key={tab.name}
-                  className="w-49 h-25 rounded-lg border border-[#797979] text-xl text-railway_303 leading-[6.25rem] hover:bg-[#f5f5f5]">
+                  className={`w-49 h-25 rounded-lg border border-[#797979] text-xl text-railway_303 leading-[6.25rem] hover:bg-[#f5f5f5] 
+                  ${tab.path === "/documentCenter" ? "bg-white" : "bg-[#D7D7D7]"}`}>
                   {tab.name}
                 </li>
               ))}

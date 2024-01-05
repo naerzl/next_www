@@ -4,14 +4,19 @@ import ExpandLess from "@mui/icons-material/ExpandLess"
 import ExpandMore from "@mui/icons-material/ExpandMore"
 import Markdown from 'markdown-to-jsx';
 import { Collapse, List, ListItemButton, ListItemText, } from "@mui/material"
+import ListItemIcon from '@mui/material/ListItemIcon';
+import FiberManualRecord from '@mui/icons-material/FiberManualRecord';
+import RadioButtonUnchecked from '@mui/icons-material/RadioButtonUnchecked';
+import "./page.css";
+import { Huojian, Xiangmu, Denglu, Gongcheng, Wuzi, Shiyan, Jungong, Daochu, Duoren, App, Guanli } from "../../../../svg";
 export const dynamic = "force-dynamic"
 // const file = ()=>import('./createProject.md')
-// const file1 = require('./createProject.md')
 
 const menuList: { [key: string]: any } = {
   commonLibrary: {
     title: "快速入门",
     permissionTag: "project_management_module_read",
+    iconLogo: <Huojian />,
     children: {
       "create-project-first": {
         title: "创建项目",
@@ -43,6 +48,7 @@ const menuList: { [key: string]: any } = {
   materialManagement: {
     title: "项目管理",
     permissionTag: "material_management_module_read",
+    iconLogo: <Xiangmu />,
     children: {
       "create-project": {
         title: "创建项目",
@@ -54,6 +60,7 @@ const menuList: { [key: string]: any } = {
   testManagement: {
     title: "登录",
     permissionTag: "test_management_module_read",
+    iconLogo: <Denglu />,
     children: {
       "first-login": {
         title: "首次登录",
@@ -70,6 +77,7 @@ const menuList: { [key: string]: any } = {
   commonLibrarys: {
     title: "工程管理",
     permissionTag: "project_management_module_read",
+    iconLogo: <Gongcheng />,
     children: {
       "structures": {
         title: "构筑物",
@@ -113,6 +121,7 @@ const menuList: { [key: string]: any } = {
   materialManagements: {
     title: "物资管理",
     permissionTag: "material_management_module_read",
+    iconLogo: <Wuzi />,
     children: {
       "material-entry": {
         title: "物资进场",
@@ -134,6 +143,7 @@ const menuList: { [key: string]: any } = {
   testManagements: {
     title: "试验管理",
     permissionTag: "test_management_module_read",
+    iconLogo: <Shiyan />,
     children: {
       "trial-list": {
         title: "试验列表",
@@ -145,6 +155,7 @@ const menuList: { [key: string]: any } = {
   dataTemplate: {
     title: "功能模块",
     permissionTag: "function_module_module_read",
+    iconLogo: <Guanli />,
     children: {
       "construction-plan": {
         title: "施工计划",
@@ -178,6 +189,7 @@ const menuList: { [key: string]: any } = {
   userManagement: {
     title: "用户管理",
     permissionTag: "user_management_module_read",
+    iconLogo: <Duoren />,
     children: {
       "member-list": {
         title: "成员列表",
@@ -189,6 +201,7 @@ const menuList: { [key: string]: any } = {
   completionManagement: {
     title: "竣工管理",
     permissionTag: "completion_management_module_read",
+    iconLogo: <Jungong />,
     children: {
       "completion-data": {
         title: "竣工资料",
@@ -200,6 +213,7 @@ const menuList: { [key: string]: any } = {
   queue: {
     title: "导出管理",
     permissionTag: "export_management_module_read",
+    iconLogo: <Daochu />,
     children: {
       "export-task": {
         title: "导出任务",
@@ -211,6 +225,7 @@ const menuList: { [key: string]: any } = {
   app: {
     title: "APP",
     permissionTag: "export_management_module_read",
+    iconLogo: <App />,
     children: {
       "material-entry": {
         title: "物资进场",
@@ -265,6 +280,7 @@ function side() {
   };
   // 默认展示
   const [selectedMenu, setSelectedMenu] = React.useState<string | null>(null);
+
   React.useEffect(() => {
     const autoOpen = (menu: any) => {
       for (const key in menu) {
@@ -279,17 +295,22 @@ function side() {
     const createProjectKey = "create-project-first";
     handleClickOpen(createProjectKey);
     setSelectedMenu(createProjectKey);
-    goto(menuList.commonLibrary.children[createProjectKey]);
+    const createProjectFullKey = `commonLibrary/${createProjectKey}`;
+    goto(menuList.commonLibrary.children[createProjectKey], createProjectFullKey);
   }, [pathName]);
   // 点击展示不同的文档
-  const goto = (menu: any) => {
-    console.log(menu.file);
+  const [customClassName, setCustomClassName] = React.useState('');
+  const goto = (menu: any, key: string) => {
     if (menu.file) {
       setMarkdownContent(menu.file)
-    } else {
-      setMarkdownContent('')
+      const newClassName = key.includes('app/') || key.includes('commonLibrary/information-filling') ? 'app-specific-class' : '';
+      setCustomClassName(newClassName);
+      window.scrollTo(0, 0);
     }
   }
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [markdownContent, customClassName]);
   const content = {
     height: "calc(100vh - 4rem)"
   }
@@ -302,15 +323,40 @@ function side() {
     return Object.keys(menu).map((key, index) => {
       const fullKey = `${parentKey}/${key}`;
       const hasChildren = menu[key].children;
-      const marginLeft = 30 * level;
+      const marginLeft = 15 * level;
+      const itemStyle: React.CSSProperties = {};
+      if (level === 2) {
+        itemStyle.marginLeft = '2rem';
+      }
+      // 子菜单样式
+      const fontStyle = level === 0
+        ? { fontWeight: 'normal', fontSize: '1.1em', color: 'black' }
+        : level === 1
+          ? { fontWeight: 'normal', fontSize: '.9em' }
+          : { fontWeight: 'normal', fontSize: '.9em' };
       const isSelected = selectedMenu === fullKey;
+      // 是否选中选择图标
+      const CircleIcon = isSelected ? FiberManualRecord : RadioButtonUnchecked;
+      // 顶级菜单的图标大小
+      interface IconfontIconProps {
+        className: string;
+        [key: string]: any;
+      }
+      const IconfontIcon: React.FC<IconfontIconProps> = ({ className, ...otherProps }) => {
+        return <i className={`iconfont ${className}`} {...otherProps}></i>;
+      };
+      const listItemIconStyle = (level: any) => {
+        return level === 0 ? {} : { minWidth: '30px', marginRight: '-1rem' };
+      };
       return (
         <React.Fragment key={fullKey}>
           <ListItemButton
             sx={{
-              color: "#44566c", marginLeft: `${marginLeft}px`, bgcolor: isSelected ? "grey.300" : "inherit",
+              color: "#44566c",
+              marginLeft: `${marginLeft}px`,
+              bgcolor: isSelected ? "grey.400" : "inherit",
               '&:hover': {
-                bgcolor: "grey.200",
+                bgcolor: "grey.300",
               },
             }}
             onClick={() => {
@@ -318,10 +364,18 @@ function side() {
                 handleClickOpen(fullKey);
               }
               setSelectedMenu(fullKey);
-              goto(menu[key]);
+              goto(menu[key], fullKey);
             }}
           >
-            <ListItemText>{menu[key].title}</ListItemText>
+            {level === 0 && (
+              <ListItemIcon>
+                {menu[key].iconLogo}
+              </ListItemIcon>
+            )}
+            {level > 0 && (<ListItemIcon style={listItemIconStyle(level)}>
+              <CircleIcon color="action" />
+            </ListItemIcon>)}
+            <ListItemText primary={menu[key].title} primaryTypographyProps={{ style: { ...fontStyle } }} />
             {hasChildren ? (openList.includes(fullKey) ? <ExpandLess /> : <ExpandMore />) : null}
           </ListItemButton>
           {hasChildren && (
@@ -338,16 +392,28 @@ function side() {
 
   return (
     <div className="flex mt-16" style={content}>
+      <nav className="w-full h-16 fixed top-0 left-0 box-border z-50 transition-colors duration-100 min-w-[90rem] shadow-md max-2xl:absolute phone:hidden">
+        <div className='w-full h-full'>
+          <div className=" w-full h-full mx-auto flex items-center px-4">
+            <div className="flex text-xl items-center">
+              <img className="h-8 transition-all" src="/static/image/logo2.png" alt="" />
+              <span className="ml-2">筑宬科技</span>
+            </div>
+            <div className="mx-2">|</div>
+            <div className="text-base">文档中心</div>
+          </div>
+        </div>
+      </nav>
       <List
-        sx={{ width: "100%", maxWidth: "15rem", bgcolor: "background.paper", height: "100%", margin: "0", padding: "0" }}
+        sx={{ width: "100%", maxWidth: "15rem", bgcolor: "#f2f2f2", height: "100%", margin: "0", padding: "0" }}
         component="nav"
         aria-labelledby="nested-list-subheader"
         style={scrollable as React.CSSProperties}
       >
         {renderMenuTree(menuList)}
       </List>
-      <div className="flex-1" style={scrollable as React.CSSProperties}>
-        <Markdown children={markdownContent} />
+      <div className={`flex-1 rightContent px-10 py-5 ${customClassName}`} style={scrollable as React.CSSProperties}>
+        <Markdown children={markdownContent} key={customClassName} />
       </div>
     </div>
   );
