@@ -266,7 +266,7 @@ const menuList: { [key: string]: any } = {
   },
 }
 
-function side() {
+function Side() {
   const [openList, setOpen] = React.useState<string[]>([])
   const [markdownContent, setMarkdownContent] = React.useState('')
   const pathName = '/currentPath';
@@ -419,4 +419,4 @@ function side() {
   );
 }
 
-export default side
+export default Side

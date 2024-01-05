@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { CSSProperties } from 'react';
 import QRCode from 'qrcode.react';
 import './download.css';
-function side() {
+function Side() {
     const [isHovered, setIsHovered] = useState(false);
     const [isDownloadVisible, setDownloadVisible] = useState(true);
     const boxStyle: CSSProperties = {
@@ -86,4 +86,4 @@ function side() {
         </>
     )
 }
-export default side
+export default Side
