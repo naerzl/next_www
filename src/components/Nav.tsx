@@ -112,11 +112,11 @@ const Nav = () => {
           <div className="line"></div>
           <div className="w-36 flex justify-between">
             <span
-              className="cursor-pointer"
+              className="cursor-pointer text-[#146BAE]"
               onClick={() => {
                 router.push("/downloadCenter")
               }}>
-              app下载
+              APP下载
             </span>
             <span
               className={`mr-3 cursor-pointer`}
