@@ -1,0 +1,27 @@
+.rightContent {
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 1rem;
+  }
+
+  img {
+    width: 60%;
+    margin-left: 4rem;
+  }
+}
+
+.app-specific-class img {
+  width: auto;
+}
+
+.iconLogo {
+  margin-right: -1.5rem;
+}
+
+.iconfont {
+  font-size: 22px;
+}
