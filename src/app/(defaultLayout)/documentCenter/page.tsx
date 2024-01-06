@@ -7,7 +7,7 @@ import { Collapse, List, ListItemButton, ListItemText } from "@mui/material"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import FiberManualRecord from "@mui/icons-material/FiberManualRecord"
 import RadioButtonUnchecked from "@mui/icons-material/RadioButtonUnchecked"
-import "./page.css"
+import "./index.scss"
 import {
   Huojian,
   Xiangmu,
@@ -378,10 +378,10 @@ function Side() {
               setSelectedMenu(fullKey)
               goto(menu[key], fullKey)
             }}>
-            {level === 0 && <ListItemIcon>{menu[key].iconLogo}</ListItemIcon>}
+            {level === 0 && <ListItemIcon className="iconLogo">{menu[key].iconLogo}</ListItemIcon>}
             {level > 0 && (
               <ListItemIcon style={listItemIconStyle(level)}>
-                <CircleIcon color="action" />
+                <CircleIcon color="action" className="text-[0.6rem]" />
               </ListItemIcon>
             )}
             <ListItemText
