@@ -287,7 +287,7 @@ function Side() {
     setOpen((pre) => (openList.includes(key) ? pre.filter((item) => item !== key) : [...pre, key]))
   }
   // 默认展示
-  const [selectedMenu, setSelectedMenu] = React.useState<string | null>(null)
+  const [selectedMenu, setSelectedMenu] = React.useState<any>('')
 
   React.useEffect(() => {
     const autoOpen = (menu: any) => {
@@ -301,27 +301,43 @@ function Side() {
     }
     autoOpen(menuList)
     const createProjectKey = "create-project-first"
-    handleClickOpen(createProjectKey)
+    const commonLibrary = "/commonLibrary"
     setSelectedMenu(createProjectKey)
+    setSelectedMenu('/commonLibrary/create-project-first')
     const createProjectFullKey = `commonLibrary/${createProjectKey}`
-    goto(menuList.commonLibrary.children[createProjectKey], createProjectFullKey)
+    // 存储当前页
+    const storedKey = localStorage.getItem('title');
+    const hightLight = localStorage.getItem('Highlight')
+    if (storedKey === null) {
+      handleClickOpen(commonLibrary)
+      handleClickOpen(createProjectKey)
+      goto(menuList.commonLibrary.children[createProjectKey], createProjectFullKey)
+    } else {
+      setMarkdownContent(storedKey)
+      setSelectedMenu(hightLight)
+      hightLight && handleClickOpen(hightLight)
+      let storage = window.localStorage;
+      storage.clear()
+    }
   }, [pathName])
   // 点击展示不同的文档
   const [customClassName, setCustomClassName] = React.useState("")
+  const scrollTop = React.useRef<HTMLDivElement | null>(null);
   const goto = (menu: any, key: string) => {
     if (menu.file) {
+      localStorage.setItem('title', menu.file);
+      localStorage.setItem('Highlight', selectedMenu)
       setMarkdownContent(menu.file)
       const newClassName =
         key.includes("app/") || key.includes("commonLibrary/information-filling")
           ? "app-specific-class"
           : ""
       setCustomClassName(newClassName)
-      window.scrollTo(0, 0)
+      if (scrollTop.current) {
+        scrollTop.current.scrollTop = 0;
+      }
     }
   }
-  React.useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [markdownContent, customClassName])
   const content = {
     height: "calc(100vh - 4rem)",
   }
@@ -344,18 +360,16 @@ function Side() {
         level === 0
           ? { fontWeight: "normal", fontSize: "1.1em", color: "black" }
           : level === 1
-          ? { fontWeight: "normal", fontSize: ".9em" }
-          : { fontWeight: "normal", fontSize: ".9em" }
+            ? { fontWeight: "normal", fontSize: ".9em" }
+            : { fontWeight: "normal", fontSize: ".9em" }
       const isSelected = selectedMenu === fullKey
+
       // 是否选中选择图标
       const CircleIcon = isSelected ? FiberManualRecord : RadioButtonUnchecked
       // 顶级菜单的图标大小
       interface IconfontIconProps {
         className: string
         [key: string]: any
-      }
-      const IconfontIcon: React.FC<IconfontIconProps> = ({ className, ...otherProps }) => {
-        return <i className={`iconfont ${className}`} {...otherProps}></i>
       }
       const listItemIconStyle = (level: any) => {
         return level === 0 ? {} : { minWidth: "30px", marginRight: "-1rem" }
@@ -432,7 +446,7 @@ function Side() {
       </List>
       <div
         className={`flex-1 rightContent px-10 py-5 ${customClassName}`}
-        style={scrollable as React.CSSProperties}>
+        style={scrollable as React.CSSProperties} ref={scrollTop}>
         <Markdown key={customClassName}>{markdownContent}</Markdown>
       </div>
     </div>
