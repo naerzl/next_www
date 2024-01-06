@@ -1,14 +1,13 @@
 import "swiper/css"
 import "@/styles/home.scss"
-import HomeSwiper from "./components/HomeSwiper"
+import HomeSwiper from "@/app/components/HomeSwiper"
 import React from "react"
 
 import { Metadata } from "next"
-import Dynamic from "./components/Dynamic"
+import Dynamic from "@/app/components/Dynamic"
 import dynamic from "next/dynamic"
 import Footer from "@/components/Footer"
 const DynamicComponent = dynamic(() => import("@/components/Nav"), { ssr: false })
-// 111
 
 export const metadata: Metadata = {
   title: "首页",
@@ -51,7 +50,7 @@ const buddyList = [
 export default function Home() {
   return (
     <>
-    <DynamicComponent />
+      <DynamicComponent />
       <main className="w-full mx-auto  home ">
         <HomeSwiper />
         <div className="max-w-[1920px] mx-auto">
