@@ -21,8 +21,12 @@ import {
   App,
   Guanli,
 } from "../../../../svg"
+import { usePathname } from "next/navigation"
 export const dynamic = "force-dynamic"
-// const file = ()=>import('./createProject.md')
+
+const FILE_CONTENT_KEY = "doc_fileContent"
+const HIGH_LIGHT_KEY = "doc_Highlight"
+const OPEN_LIST_KEY = "doc_openList"
 
 const menuList: { [key: string]: any } = {
   commonLibrary: {
@@ -278,73 +282,72 @@ const menuList: { [key: string]: any } = {
   },
 }
 
-function Side() {
-  const [openList, setOpen] = React.useState<string[]>([])
+export default function Page() {
+  const [openList, setOpenList] = React.useState<string[]>([])
   const [markdownContent, setMarkdownContent] = React.useState("")
-  const pathName = "/currentPath"
+
+  const pathName = usePathname()
+
   // 处理展开合并方法
   const handleClickOpen = (key: string) => {
-    setOpen((pre) => (openList.includes(key) ? pre.filter((item) => item !== key) : [...pre, key]))
+    setOpenList((pre) =>
+      openList.includes(key) ? pre.filter((item) => item !== key) : [...pre, key],
+    )
   }
   // 默认展示
-  const [selectedMenu, setSelectedMenu] = React.useState<any>('')
+  const [selectedMenu, setSelectedMenu] = React.useState<any>("")
 
   React.useEffect(() => {
-    const autoOpen = (menu: any) => {
-      for (const key in menu) {
-        if (menu[key].children) {
-          autoOpen(menu[key].children)
-        } else if (pathName.startsWith(menu[key].path)) {
-          setOpen((pre) => [...pre, key])
-        }
-      }
-    }
-    autoOpen(menuList)
-    const createProjectKey = "create-project-first"
-    const commonLibrary = "/commonLibrary"
-    setSelectedMenu(createProjectKey)
-    setSelectedMenu('/commonLibrary/create-project-first')
-    const createProjectFullKey = `commonLibrary/${createProjectKey}`
-    // 存储当前页
-    const storedKey = localStorage.getItem('title');
-    const hightLight = localStorage.getItem('Highlight')
-    if (storedKey === null) {
-      handleClickOpen(commonLibrary)
-      handleClickOpen(createProjectKey)
-      goto(menuList.commonLibrary.children[createProjectKey], createProjectFullKey)
+    const storeFileContent = localStorage.getItem(FILE_CONTENT_KEY)
+    if (storeFileContent) {
+      setMarkdownContent(storeFileContent)
+      setOpenList(JSON.parse(localStorage.getItem(OPEN_LIST_KEY) ?? "[]"))
+      let higtLightKey = localStorage.getItem(HIGH_LIGHT_KEY)!
+      setSelectedMenu(higtLightKey)
+      const newClassName =
+        higtLightKey.includes("app/") || higtLightKey.includes("commonLibrary/information-filling")
+          ? "app-specific-class"
+          : ""
+      setCustomClassName(newClassName)
     } else {
-      setMarkdownContent(storedKey)
-      setSelectedMenu(hightLight)
-      hightLight && handleClickOpen(hightLight)
-      let storage = window.localStorage;
-      storage.clear()
+      setSelectedMenu("/commonLibrary/create-project-first")
+      setMarkdownContent(menuList.commonLibrary.children["create-project-first"].file)
+      setOpenList(["/commonLibrary"])
     }
   }, [pathName])
+
   // 点击展示不同的文档
   const [customClassName, setCustomClassName] = React.useState("")
-  const scrollTop = React.useRef<HTMLDivElement | null>(null);
+
+  const scrollTop = React.useRef<HTMLDivElement | null>(null)
+
   const goto = (menu: any, key: string) => {
     if (menu.file) {
-      localStorage.setItem('title', menu.file);
-      localStorage.setItem('Highlight', selectedMenu)
+      localStorage.setItem(FILE_CONTENT_KEY, menu.file)
+      localStorage.setItem(HIGH_LIGHT_KEY, key)
+      localStorage.setItem(OPEN_LIST_KEY, JSON.stringify(openList))
       setMarkdownContent(menu.file)
+      setSelectedMenu(key)
       const newClassName =
         key.includes("app/") || key.includes("commonLibrary/information-filling")
           ? "app-specific-class"
           : ""
       setCustomClassName(newClassName)
       if (scrollTop.current) {
-        scrollTop.current.scrollTop = 0;
+        scrollTop.current.scrollTop = 0
       }
     }
   }
+
   const content = {
     height: "calc(100vh - 4rem)",
   }
+
   const scrollable = {
     overflowY: "auto",
     maxHeight: "100vh",
   }
+
   // 递归渲染层级菜单
   const renderMenuTree = (menu: { [key: string]: any }, parentKey = "", level = 0) => {
     return Object.keys(menu).map((key, index) => {
@@ -360,17 +363,12 @@ function Side() {
         level === 0
           ? { fontWeight: "normal", fontSize: "1.1em", color: "black" }
           : level === 1
-            ? { fontWeight: "normal", fontSize: ".9em" }
-            : { fontWeight: "normal", fontSize: ".9em" }
-      const isSelected = selectedMenu === fullKey
+          ? { fontWeight: "normal", fontSize: ".9em" }
+          : { fontWeight: "normal", fontSize: ".9em" }
 
       // 是否选中选择图标
-      const CircleIcon = isSelected ? FiberManualRecord : RadioButtonUnchecked
+      const CircleIcon = selectedMenu === fullKey ? FiberManualRecord : RadioButtonUnchecked
       // 顶级菜单的图标大小
-      interface IconfontIconProps {
-        className: string
-        [key: string]: any
-      }
       const listItemIconStyle = (level: any) => {
         return level === 0 ? {} : { minWidth: "30px", marginRight: "-1rem" }
       }
@@ -380,7 +378,7 @@ function Side() {
             sx={{
               color: "#44566c",
               marginLeft: `${marginLeft}px`,
-              bgcolor: isSelected ? "grey.400" : "inherit",
+              bgcolor: selectedMenu === fullKey ? "grey.400" : "inherit",
               "&:hover": {
                 bgcolor: "grey.300",
               },
@@ -389,7 +387,6 @@ function Side() {
               if (hasChildren) {
                 handleClickOpen(fullKey)
               }
-              setSelectedMenu(fullKey)
               goto(menu[key], fullKey)
             }}>
             {level === 0 && <ListItemIcon className="iconLogo">{menu[key].iconLogo}</ListItemIcon>}
@@ -446,11 +443,10 @@ function Side() {
       </List>
       <div
         className={`flex-1 rightContent px-10 py-5 ${customClassName}`}
-        style={scrollable as React.CSSProperties} ref={scrollTop}>
+        style={scrollable as React.CSSProperties}
+        ref={scrollTop}>
         <Markdown key={customClassName}>{markdownContent}</Markdown>
       </div>
     </div>
   )
 }
-
-export default Side
