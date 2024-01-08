@@ -2,7 +2,6 @@
 import React from "react"
 import reactStringReplace from "react-string-replace"
 import Markdown from "markdown-to-jsx"
-const file1 = require("../../../../public/markdown/快速入门-1创建项目.md")
 
 const menuList: { [key: string]: any } = {
   "create-project-first": {

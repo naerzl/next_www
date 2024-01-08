@@ -3,7 +3,7 @@ import { IconButton, InputAdornment, InputBase, Divider } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 import React from "react"
 import { useRouter } from "next/navigation"
-import { FILE_CONTENT_KEY, HIGH_LIGHT_KEY, OPEN_LIST_KEY } from "../../remove";
+import { FILE_CONTENT_KEY, HIGH_LIGHT_KEY, OPEN_LIST_KEY } from "../../remove"
 
 const mayBeFind = [
   {
@@ -125,12 +125,11 @@ function Service() {
   const router = useRouter()
   const goToPage = (tab: string) => {
     if (tab === "") {
-      console.log("111")
     } else if (tab === "/documentCenter") {
       localStorage.removeItem(FILE_CONTENT_KEY)
       localStorage.removeItem(OPEN_LIST_KEY)
       localStorage.removeItem(HIGH_LIGHT_KEY)
-      window.open(tab)
+      window.open("/documentCenter/create-project-first")
     } else {
       router.push(tab)
       console.log(tab)
