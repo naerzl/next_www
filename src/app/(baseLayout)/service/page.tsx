@@ -121,25 +121,24 @@ const bottomList = [
   },
 ]
 function Service() {
-  const router = useRouter();
+  const router = useRouter()
   const goToPage = (tab: string) => {
-    if (tab === '') {
-      console.log('111')
-    } else if (tab === '/documentCenter') {
+    if (tab === "") {
+      console.log("111")
+    } else if (tab === "/documentCenter") {
       window.open(tab)
     } else {
-      router.push(tab);
-      console.log(tab);
-      
+      router.push(tab)
+      console.log(tab)
     }
-  };
+  }
   function handleContact(type: string, content: string) {
     if (type === "phone") {
-      window.location.href = `tel:${content}`;
+      window.location.href = `tel:${content}`
     } else if (type === "email") {
-      window.location.href = `mailto:${content}`;
+      window.location.href = `mailto:${content}`
     }
-  };
+  }
   return (
     <>
       <main className="mt-16 w-full mx-auto service ">
@@ -227,7 +226,8 @@ function Service() {
               {bottomList.map((item, index) => (
                 <li key={index} className="text-center w-44">
                   <div className="text-3xl text-center">{item.title}</div>
-                  <button className="text-sm py-2 px-4 my-7 bg-railway_deep_red text-white"
+                  <button
+                    className="text-sm py-2 px-4 my-7 bg-railway_deep_red text-white"
                     onClick={() => handleContact(item.type, item.content)}>
                     立即咨询
                   </button>

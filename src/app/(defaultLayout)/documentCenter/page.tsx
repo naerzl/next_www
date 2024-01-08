@@ -297,7 +297,14 @@ export default function Page() {
   // 默认展示
   const [selectedMenu, setSelectedMenu] = React.useState<any>("")
 
+  function clearLocalStorage() {
+    localStorage.removeItem(FILE_CONTENT_KEY)
+    localStorage.removeItem(OPEN_LIST_KEY)
+    localStorage.removeItem(HIGH_LIGHT_KEY)
+  }
+
   React.useEffect(() => {
+    console.log("组件挂载")
     const storeFileContent = localStorage.getItem(FILE_CONTENT_KEY)
     if (storeFileContent) {
       setMarkdownContent(storeFileContent)
@@ -314,7 +321,12 @@ export default function Page() {
       setMarkdownContent(menuList.commonLibrary.children["create-project-first"].file)
       setOpenList(["/commonLibrary"])
     }
-  }, [pathName])
+    window.addEventListener("beforeunload", clearLocalStorage)
+    return () => {
+      // 在组件即将卸载时执行的代码
+      window.removeEventListener("beforeunload", clearLocalStorage)
+    }
+  }, [])
 
   // 点击展示不同的文档
   const [customClassName, setCustomClassName] = React.useState("")
