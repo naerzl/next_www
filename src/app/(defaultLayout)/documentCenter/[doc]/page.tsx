@@ -1,6 +1,7 @@
 "use client"
 import React from "react"
 import Markdown from "markdown-to-jsx"
+import '../../documentCenter/index.scss'
 import {
   App,
   Daochu,
