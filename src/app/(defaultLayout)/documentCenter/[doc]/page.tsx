@@ -1,19 +1,6 @@
 "use client"
 import React from "react"
 import Markdown from "markdown-to-jsx"
-import {
-  App,
-  Daochu,
-  Denglu,
-  Duoren,
-  Gongcheng,
-  Guanli,
-  Huojian,
-  Jungong,
-  Shiyan,
-  Wuzi,
-  Xiangmu,
-} from "../../../../../svg"
 
 const list = [
   {
@@ -92,6 +79,10 @@ const list = [
   {
     key: "trial-list",
     file: require("../../../../../public/markdown/14试验管理-试验列表.md"),
+  },
+  {
+    key: "construction-plan-item",
+    file: require("../../../../../public/markdown/15功能模块-施工计划-施工计划.md"),
   },
   {
     key: "basic-data",

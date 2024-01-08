@@ -242,6 +242,8 @@ const menuList: { [key: string]: any } = {
   },
 }
 
+const list = ["construction-plan", "structures"]
+
 function Side() {
   const [openList, setOpenList] = React.useState<string[]>([])
   const [selectedMenu, setSelectedMenu] = React.useState<any>("")
@@ -259,12 +261,16 @@ function Side() {
     router.push(`/documentCenter/${key2}`)
   }
 
-  const handleClickOpen = (key: string) => {
+  const handleClickOpen = (key: string, key2: string) => {
     localStorage.setItem(HIGH_LIGHT_KEY, key)
     localStorage.setItem(OPEN_LIST_KEY, JSON.stringify(openList))
     setOpenList((pre) =>
       openList.includes(key) ? pre.filter((item) => item !== key) : [...pre, key],
     )
+
+    if (list.includes(key2)) {
+      router.push(`/documentCenter/${key2}`)
+    }
   }
 
   React.useEffect(() => {
@@ -323,7 +329,7 @@ function Side() {
             }}
             onClick={() => {
               if (hasChildren) {
-                handleClickOpen(fullKey)
+                handleClickOpen(fullKey, key)
               } else {
                 goto(menu[key], fullKey, key)
               }
