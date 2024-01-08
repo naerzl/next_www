@@ -1,6 +1,7 @@
 "use client"
 import React from "react"
 import Markdown from "markdown-to-jsx"
+import "../../documentCenter/index.scss"
 
 const list = [
   {
@@ -81,10 +82,6 @@ const list = [
     file: require("../../../../../public/markdown/14试验管理-试验列表.md"),
   },
   {
-    key: "construction-plan-item",
-    file: require("../../../../../public/markdown/15功能模块-施工计划-施工计划.md"),
-  },
-  {
     key: "basic-data",
     file: require("../../../../../public/markdown/16功能模块-施工计划-设计数据.md"),
   },
@@ -139,6 +136,14 @@ const list = [
   },
 ]
 
+const tags = [
+  "information-filling",
+  "material-testing",
+  "construction-log",
+  "personal-center",
+  "set-up",
+]
+
 function Page(props: any) {
   const scrollTop = React.useRef<HTMLDivElement | null>(null)
 
@@ -157,7 +162,11 @@ function Page(props: any) {
   }, [])
 
   return (
-    <div className={`flex-1 rightContent px-10 py-5`} ref={scrollTop}>
+    <div
+      className={`flex-1 rightContent px-10 py-5 ${
+        tags.includes(props.params.doc) ? "app-specific-class" : ""
+      }`}
+      ref={scrollTop}>
       <Markdown>{markdownContent}</Markdown>
     </div>
   )
