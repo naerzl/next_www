@@ -22,11 +22,8 @@ import {
   Guanli,
 } from "../../../../svg"
 import { usePathname } from "next/navigation"
+import { FILE_CONTENT_KEY, HIGH_LIGHT_KEY, OPEN_LIST_KEY } from "../../remove";
 export const dynamic = "force-dynamic"
-
-const FILE_CONTENT_KEY = "doc_fileContent"
-const HIGH_LIGHT_KEY = "doc_Highlight"
-const OPEN_LIST_KEY = "doc_openList"
 
 const menuList: { [key: string]: any } = {
   commonLibrary: {
@@ -285,7 +282,6 @@ const menuList: { [key: string]: any } = {
 export default function Page() {
   const [openList, setOpenList] = React.useState<string[]>([])
   const [markdownContent, setMarkdownContent] = React.useState("")
-
   const pathName = usePathname()
 
   // 处理展开合并方法
@@ -297,14 +293,7 @@ export default function Page() {
   // 默认展示
   const [selectedMenu, setSelectedMenu] = React.useState<any>("")
 
-  function clearLocalStorage() {
-    localStorage.removeItem(FILE_CONTENT_KEY)
-    localStorage.removeItem(OPEN_LIST_KEY)
-    localStorage.removeItem(HIGH_LIGHT_KEY)
-  }
-
   React.useEffect(() => {
-    console.log("组件挂载")
     const storeFileContent = localStorage.getItem(FILE_CONTENT_KEY)
     if (storeFileContent) {
       setMarkdownContent(storeFileContent)
@@ -321,18 +310,13 @@ export default function Page() {
       setMarkdownContent(menuList.commonLibrary.children["create-project-first"].file)
       setOpenList(["/commonLibrary"])
     }
-    window.addEventListener("beforeunload", clearLocalStorage)
-    return () => {
-      // 在组件即将卸载时执行的代码
-      window.removeEventListener("beforeunload", clearLocalStorage)
-    }
-  }, [])
+  }, [pathName])
 
   // 点击展示不同的文档
   const [customClassName, setCustomClassName] = React.useState("")
-
+  // 切换文档回到顶部
   const scrollTop = React.useRef<HTMLDivElement | null>(null)
-
+  // 切换文档
   const goto = (menu: any, key: string) => {
     if (menu.file) {
       localStorage.setItem(FILE_CONTENT_KEY, menu.file)
