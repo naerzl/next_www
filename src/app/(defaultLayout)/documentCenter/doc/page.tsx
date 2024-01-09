@@ -170,7 +170,7 @@ function Page(props: any) {
 
   return (
     <div
-      className={`flex-1 rightContent px-10 py-5 ${
+      className={`flex-1 rightContent px-20 py-10 ${
         tags.includes(props.params.doc) ? "app-specific-class" : ""
       }`}
       ref={scrollTop}>
