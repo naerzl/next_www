@@ -20,7 +20,7 @@ import {
   Wuzi,
   Xiangmu,
 } from "../../../../../svg"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 const menuList: { [key: string]: any } = {
   commonLibrary: {
@@ -36,7 +36,7 @@ const menuList: { [key: string]: any } = {
         title: "基础配置",
         permissionTag: "unit_project_member_read",
       },
-      "construction-plan": {
+      "construction-plan-commonLibrary": {
         title: "施工计划",
         permissionTag: "station_data_member_read",
       },
@@ -118,15 +118,15 @@ const menuList: { [key: string]: any } = {
     permissionTag: "material_management_module_read",
     iconLogo: <Wuzi />,
     children: {
-      "material-entry": {
+      "material-entry-managements": {
         title: "物资进场",
         permissionTag: "material_approach_member_read",
       },
-      "material-processing": {
+      "material-processing-managements": {
         title: "物资加工",
         permissionTag: "material_processing_member_read",
       },
-      "material-requisition": {
+      "material-requisition-managements": {
         title: "物资领用",
         permissionTag: "receipt_of_materials_member_read",
       },
@@ -250,43 +250,54 @@ function Side() {
 
   const router = useRouter()
 
+  const searchParams = useSearchParams()
+
   const goto = (menu: any, key: string, key2: any) => {
-    localStorage.setItem(HIGH_LIGHT_KEY, key)
-    localStorage.setItem(OPEN_LIST_KEY, JSON.stringify(openList))
     setSelectedMenu(key)
-    const newClassName =
-      key.includes("app/") || key.includes("commonLibrary/information-filling")
-        ? "app-specific-class"
-        : ""
-    router.push(`/documentCenter/${key2}`)
   }
 
   const handleClickOpen = (key: string, key2: string) => {
-    localStorage.setItem(HIGH_LIGHT_KEY, key)
-    localStorage.setItem(OPEN_LIST_KEY, JSON.stringify(openList))
     setOpenList((pre) =>
       openList.includes(key) ? pre.filter((item) => item !== key) : [...pre, key],
     )
 
     if (list.includes(key2)) {
-      router.push(`/documentCenter/${key2}`)
+      router.push(`/documentCenter/doc?key=${key2}`)
     }
   }
 
+  const findHightKey = (menu: any, keyParams: string) => {
+    const menuArr = Object.keys(menu)
+    let keys: string[] = []
+    menuArr.forEach((key) => {
+      if (key == keyParams) {
+        keys.push(key)
+      }
+      if (menu[key].children) {
+        const res = findHightKey(menu[key].children, keyParams)
+        if (res.length > 0) {
+          keys.push(key, ...res)
+        }
+      }
+    })
+    return keys
+  }
+
   React.useEffect(() => {
-    const storeFileContent = localStorage.getItem(HIGH_LIGHT_KEY)
-    if (storeFileContent) {
-      setOpenList(JSON.parse(localStorage.getItem(OPEN_LIST_KEY) ?? "[]"))
-      let higtLightKey = localStorage.getItem(HIGH_LIGHT_KEY)!
-      setSelectedMenu(higtLightKey)
-      const newClassName =
-        higtLightKey.includes("app/") || higtLightKey.includes("commonLibrary/information-filling")
-          ? "app-specific-class"
-          : ""
-    } else {
-      setSelectedMenu("/commonLibrary/create-project-first")
-      setOpenList(["/commonLibrary"])
-    }
+    const key = searchParams.get("key")
+    const keys = findHightKey(menuList, key!)
+    setSelectedMenu("/" + keys.join("/"))
+    const cloneOpens = structuredClone(keys)
+    cloneOpens.splice(keys.length - 1, 1)
+    let openListState: string[] = []
+    cloneOpens.forEach((str, index) => {
+      if (index == 0) {
+        openListState.push("/" + str)
+      } else {
+        openListState.push(openListState[index - 1] + "/" + str)
+      }
+    })
+    setOpenList(openListState)
   }, [])
 
   const scrollable = {

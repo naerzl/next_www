@@ -129,7 +129,7 @@ function Service() {
       localStorage.removeItem(FILE_CONTENT_KEY)
       localStorage.removeItem(OPEN_LIST_KEY)
       localStorage.removeItem(HIGH_LIGHT_KEY)
-      window.open("/documentCenter/create-project-first")
+      window.open("/documentCenter/doc?key=create-project-first")
     } else {
       router.push(tab)
       console.log(tab)
