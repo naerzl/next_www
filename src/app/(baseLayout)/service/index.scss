@@ -1,0 +1,48 @@
+// .hintParent {
+//     position: absolute;
+//     width: 100%;
+//     background-color: #f8fafb;
+//     border: 1px solid #f8fafb;
+//     padding: 0.5rem;
+//     max-height: 20rem;
+//     margin-top: -2.3rem;
+//     z-index: 999;
+//     bottom: 82rem;
+// }
+
+// .hintList {
+//     list-style: none;
+//     padding: 0;
+// }
+
+// .hintItem {
+//     border-bottom: 1px solid #ccc;
+//     height: 2.5rem;
+//     line-height: 2.5rem;
+// }
+
+// .hintItem:last-child {
+//     border-bottom: none;
+// }
+
+// .hintItem:hover {
+//     background-color: #cecece;
+//     cursor: pointer;
+// }
+
+// .updata {
+//     cursor: pointer;
+// }
+
+// .dropdownContainer {
+//     position: relative;
+// }
+.MuiList-root{
+    min-width: 580px;
+}
+.abcd{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
