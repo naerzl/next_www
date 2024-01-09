@@ -254,6 +254,7 @@ function Side() {
 
   const goto = (menu: any, key: string, key2: any) => {
     setSelectedMenu(key)
+    router.push(`/documentCenter/doc?key=${key2}`)
   }
 
   const handleClickOpen = (key: string, key2: string) => {
