@@ -10,7 +10,7 @@ import "../service/index.scss"
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { CircularProgress, Typography } from '@mui/material';
-
+import Chip from '@mui/material/Chip';
 const mayBeFind = [
   {
     col: [
@@ -180,6 +180,7 @@ function Service() {
   // 搜索栏
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
+  const [selectedOption, setSelectedOption] = React.useState(null);
   const keyword = [
     { label: "项目管理/创建项目", key: "create-project", title: "申请项目、试用" },
     { label: "登录/首次登录", key: "first-login", title: "登录、忘记密码、退出登录" },
@@ -210,16 +211,13 @@ function Service() {
     { label: "App/设置", key: "set-up", title: "App、退出登录" },
   ];
   // 搜索跳转
-  function handleSearch(selectedOption: { label: string; key: string } | null) {
+  function handleSearch(selectedOption: any | null) {
     if (selectedOption) {
       const { key } = selectedOption;
       const searchUrl = `/documentCenter/doc?key=${key}`
       window.open(searchUrl);
-      setTimeout(() => {
-        setInputValue('');
-      }, 100); 
+      setSelectedOption(null);
     }
-    
   }
   function CustomNoOptions() {
     return (
@@ -233,8 +231,13 @@ function Service() {
       setOpen(true);
     } else {
       setOpen(false);
-      setInputValue('');
     }
+  }
+  function clearPlaceholderText(event: any) {
+    event.target.placeholder = '';
+  }
+  function restorePlaceholderText(event: any) {
+    event.target.placeholder = "欢迎使用服务支持";
   }
   return (
     <>
@@ -260,7 +263,9 @@ function Service() {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="欢迎使用服务支持"
+                  placeholder="欢迎使用服务支持"
+                  onFocus={clearPlaceholderText}
+                  onBlur={restorePlaceholderText}
                   InputProps={{
                     ...params.InputProps,
                     endAdornment: (
@@ -278,7 +283,21 @@ function Service() {
               open={open}
               onClose={() => setOpen(false)}
               onInputChange={handleInputChange}
-              inputValue={inputValue}
+              value={selectedOption}
+              renderOption={(props, option) => {
+                const key: any = option.key;
+                const { ...otherProps } = props;
+                return (
+                  <li {...otherProps} key={key}>
+                    {option.label}
+                  </li>
+                );
+              }}
+              renderTags={(tagValue, getTagProps) => {
+                return tagValue.map((option, index) => (
+                  <Chip {...getTagProps({ index })} key={option.key} label={option.label} />
+                ))
+              }}
             />
           </div>
         </div>

@@ -142,11 +142,14 @@ const list = [
 ]
 
 const tags = [
+  "material-entry",
   "information-filling",
   "material-testing",
   "construction-log",
   "personal-center",
   "set-up",
+  "material-processing",
+  "material-requisition"
 ]
 
 function Page(props: any) {
