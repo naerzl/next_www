@@ -4,8 +4,6 @@ import SearchIcon from "@mui/icons-material/Search"
 import React from "react"
 import { useRouter } from "next/navigation"
 import { FILE_CONTENT_KEY, HIGH_LIGHT_KEY, OPEN_LIST_KEY } from "../../remove"
-// import Menu from '@mui/material/Menu';
-// import MenuItem from '@mui/material/MenuItem';
 import "../service/index.scss"
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -19,12 +17,12 @@ const mayBeFind = [
         key: "create-project-first",
       },
       {
-        text: "项目如何转正？",
-        key: "",
+        text: "工程结构工作量分配？",
+        key: "process-management",
       },
       {
-        text: "项目已过期？",
-        key: "",
+        text: "设计数据输入？",
+        key: "design-data",
       },
     ],
   },
@@ -32,11 +30,11 @@ const mayBeFind = [
     col: [
       {
         text: "如何注册账号？",
-        key: "",
+        key: "first-login",
       },
       {
-        text: "App登录失败？",
-        key: "",
+        text: "App退出登录？",
+        key: "set-up",
       },
       {
         text: "导出检验批？",
@@ -48,11 +46,11 @@ const mayBeFind = [
     col: [
       {
         text: "施工日志填写？",
-        key: "",
+        key: "construction-log",
       },
       {
         text: "快速创建工程结构？",
-        key: "create-project",
+        key: "basic-configuration",
       },
       {
         text: "如何生成物资需求计划？",
@@ -69,7 +67,7 @@ const tabsList = [
   },
   {
     name: "视频指导",
-    path: "/ceshi",
+    path: "",
   },
   {
     name: "开发者中心",
@@ -103,14 +101,14 @@ const newsList = [
     key: "demand-planning",
   },
   {
-    titile: "【文档】物资配合比操作手册",
+    titile: "【文档】App施工日志操作手册",
     date: "2024-01-03",
-    key: ""
+    key: "construction-log"
   },
   {
-    titile: "【文档】物资损耗系数操作手册",
+    titile: "【文档】检验批导出操作手册",
     date: "2024-01-03",
-    key: ""
+    key: "inspection-batch"
   },
   {
     titile: "【文档】施工计划配置操作手册",
