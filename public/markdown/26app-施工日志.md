@@ -8,11 +8,11 @@
 
 第一步：进入页面默认当前日期，点击“施工日志”进入日志页面。如图：
 
-![img](/markdown/markdownImg/img129.png) 
+![img](https://zctc.obs.myhuaweicloud.com/official/markdownImg/img129.png) 
 
 第二步：点击任意表单，进入表单填写页面。填写完成后点击“保存”。如图：
 
-![img](/markdown/markdownImg/img130.png) 
+![img](https://zctc.obs.myhuaweicloud.com/official/markdownImg/img130.png) 
 
 第三步：填写完成后的表单将会形成记录，点击记录可对其进行查看和修改。
 
@@ -20,6 +20,6 @@
 
 第四步：滑动表单，点击白色图标，即可删除选中表单。如图：
 
-![img](/markdown/markdownImg/img131.png) 
+![img](https://zctc.obs.myhuaweicloud.com/official/markdownImg/img131.png) 
 
  

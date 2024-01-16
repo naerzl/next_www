@@ -36,3 +36,4 @@ pro
 *.tsbuildinfo
 next-env.d.ts
 
+out.7z
